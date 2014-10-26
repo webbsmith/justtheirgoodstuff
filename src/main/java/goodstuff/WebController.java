@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 
@@ -39,6 +40,11 @@ public class WebController {
 
         List<EchoSong> songList = echoReply.getResponse().getSongs();
 
+        // TODO - remove duplicates (it's sorted by hotttnesss descending so keep the first one)
+        List<EchoSong> songListNoDuplicates = new ArrayList<EchoSong>(new LinkedHashSet<EchoSong>(songList));
+        songList.clear();
+        songList.addAll(songListNoDuplicates);
+
         /* Tempo calculation:
 
            remove outliers (will maybe add later)
@@ -50,7 +56,16 @@ public class WebController {
          */
 
         List<Double> tempoList = new ArrayList<Double>();
+        String a = null;
         for (EchoSong song : songList) {
+            if (song.getTitle().matches("^.*(?i)last.*$")) { //DEBUG
+                System.out.println(song.getTitle());
+                if (a == null)
+                    a = song.getTitle();
+                else
+                    System.out.println(a.equalsIgnoreCase(song.getTitle()));
+
+            }
             tempoList.add(song.getAudio_summary().getTempo());
         }
         Collections.sort(tempoList);
