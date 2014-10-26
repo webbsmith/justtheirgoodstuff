@@ -43,18 +43,18 @@
         <form action="#" th:action="@{/justtheirgoodstuff}" th:object="${formFields}" method="post">
             <label for="search">Enter a song you like: </label>
             <input th:field="*{search}" type="text" id="search" placeholder="I and Love and You"/>
-            <input type="submit" value="Search"/>
+            <input type="submit" value="Search" class="btn btn-lg btn-primary"/>
         </form>
     </div>
 
     <div>
         <h2>What do you like about it?</h2>
         <p>
-            <button type="button" class="btn btn-lg btn-primary" id="selectedButton">Tempo</button>
-            <button type="button" class="btn btn-lg btn-success">Bass</button>
-            <button type="button" class="btn btn-lg btn-success">Vocals</button>
-            <button type="button" class="btn btn-lg btn-success">Lack of Vocals</button>
-            <button type="button" class="btn btn-lg btn-success">It's Catchy</button>
+            <button type="button" class="btn btn-lg btn-primary">Tempo</button>
+            <button type="button" class="btn btn-lg btn-default">Bass</button>
+            <button type="button" class="btn btn-lg btn-default">Vocals</button>
+            <button type="button" class="btn btn-lg btn-default">Lack of Vocals</button>
+            <button type="button" class="btn btn-lg btn-default">It's Catchy</button>
         </p>
     </div>
 
@@ -63,9 +63,9 @@
     <div class="row row-centered">
         <div class="col-xs-3 col-centered">
             <table>
-                <h3>High Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
+                <h3>Low Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
                 <tr th:each="song : ${formFields.songs1}">
-                    <td th:text="${song.title}">Default</td>
+                    <td th:text="${song.audio_summary.tempo} + ' ' + ${song.title}">Default</td>
                 </tr>
             </table>
 
@@ -75,21 +75,27 @@
             <table>
                 <h3>Mid Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
                 <tr th:each="song : ${formFields.songs2}">
-                    <td th:text="${song.title}">Default</td>
+                    <td th:text="${song.audio_summary.tempo} + ' ' + ${song.title}">Default</td>
                 </tr>
             </table>
         </div>
 
         <div class="col-xs-3 col-centered">
             <table>
-                <h3>Low Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
+                <h3>High Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
                 <tr th:each="song : ${formFields.songs3}">
-                    <td th:text="${song.title}">Default</td>
+                    <td th:text="${song.audio_summary.tempo} + ' ' + ${song.title}">Default</td>
                 </tr>
             </table>
         </div>
 
     </div>
+
+    <hr/>
+
+    <footer>
+        <p>© Webb 2014</p>
+    </footer>
 
 </div> <!-- /container -->
 

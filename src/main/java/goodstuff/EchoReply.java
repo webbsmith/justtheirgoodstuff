@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by webb on 10/19/14.
+ * Container for the response from the echonest API.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EchoReply {

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -32,27 +34,54 @@ public class WebController {
         RestTemplate restTemplate = new RestTemplate();
         Page page = restTemplate.getForObject("https://api.spotify.com/v1/search?query=" + formFields.getSearch() + "&offset=0&limit=1&type=track", Page.class);
         //EchoReply echoReply = restTemplate.getForObject("http://developer.echonest.com/api/v4/artist/songs?api_key=IRQFDNLAMR8ZPGXYQ&id=spotify:artist:" + getArtistId(page) + "&format=json&start=0&results=100", EchoReply.class);
-        EchoReply echoReply = restTemplate.getForObject("http://developer.echonest.com/api/v4/song/search?api_key=IRQFDNLAMR8ZPGXYQ&artist=" + getArtistName(page) + "&format=json&start=0&results=99&sort=tempo-desc&bucket=audio_summary", EchoReply.class);
-        for (EchoSong song : echoReply.getResponse().getSongs()) {
-            System.out.println(song);
-        }
+        EchoReply echoReply = restTemplate.getForObject("http://developer.echonest.com/api/v4/song/search?api_key=IRQFDNLAMR8ZPGXYQ&artist=" + getArtistName(page) + "&format=json&start=0&results=100&sort=song_hotttnesss-desc&bucket=audio_summary", EchoReply.class);
+        // TODO - create while loop to page through all results (only 100 can be returned at a time)
 
         List<EchoSong> songList = echoReply.getResponse().getSongs();
 
-        int oneThird = songList.size()/3;
+        /* Tempo calculation:
 
-        formFields.setSongs1(songList.subList(0, oneThird + 1));
-        formFields.setSongs2(songList.subList(oneThird + 1, oneThird * 2));
-        formFields.setSongs3(songList.subList(oneThird * 2, songList.size() - 1));
+           remove outliers (will maybe add later)
+           max = highest tempo
+           min = lowest tempo
+           range = max - min
+           low tempo < (min + range/3) < mid tempo < (max - range/3) < high tempo
+
+         */
+
+        List<Double> tempoList = new ArrayList<Double>();
+        for (EchoSong song : songList) {
+            tempoList.add(song.getAudio_summary().getTempo());
+        }
+        Collections.sort(tempoList);
+
+        double max = Collections.max(tempoList);
+        double min = Collections.min(tempoList);
+        double range = max - min;
+
+        List<EchoSong> songList1 = new ArrayList<EchoSong>();
+        List<EchoSong> songList2 = new ArrayList<EchoSong>();
+        List<EchoSong> songList3 = new ArrayList<EchoSong>();
+
+        for (EchoSong song : songList) {
+            double tempo = song.getAudio_summary().getTempo();
+            if (tempo < (min + range / 3))
+                songList1.add(song);
+            else if (tempo < (max - range / 3))
+                songList2.add(song);
+            else
+                songList3.add(song);
+        }
+
+        formFields.setSongs1(songList1);
+        formFields.setSongs2(songList2);
+        formFields.setSongs3(songList3);
 
         formFields.setArtist(getArtistName(page).replace('+',' '));
-        System.out.println(formFields);
 
         try {
             System.out.println("Result from spotify API: " + page);
             System.out.println("Artist Name: " + getArtistName(page) + "\nArtist ID: " + getArtistId(page));
-            System.out.println("The post worked! JSON: " + json);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
