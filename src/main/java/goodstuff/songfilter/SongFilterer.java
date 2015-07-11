@@ -1,6 +1,6 @@
 package goodstuff.songfilter;
 
-import goodstuff.echonest.EchoSong;
+import goodstuff.external.echonest.EchoSong;
 
 import java.util.List;
 

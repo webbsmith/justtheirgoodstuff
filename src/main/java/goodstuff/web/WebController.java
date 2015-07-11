@@ -1,11 +1,11 @@
 package goodstuff.web;
 
 import com.google.gson.Gson;
-import goodstuff.echonest.EchoReply;
-import goodstuff.echonest.EchoSong;
+import goodstuff.external.echonest.EchoReply;
+import goodstuff.external.echonest.EchoSong;
 import goodstuff.songfilter.SongFilterType;
 import goodstuff.songfilter.SongFilterer;
-import goodstuff.spotify.Page;
+import goodstuff.external.spotify.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 
@@ -37,14 +34,19 @@ public class WebController {
         String json = new Gson().toJson(formFields);
 
         RestTemplate restTemplate = new RestTemplate();
-        Page page = restTemplate.getForObject("https://api.spotify.com/v1/search?query=" + formFields.getSearch() + "&offset=0&limit=1&type=track", Page.class);
-        //EchoReply echoReply = restTemplate.getForObject("http://developer.echonest.com/api/v4/artist/songs?api_key=IRQFDNLAMR8ZPGXYQ&id=spotify:artist:" + getArtistId(page) + "&format=json&start=0&results=100", EchoReply.class);
-        EchoReply echoReply = restTemplate.getForObject("http://developer.echonest.com/api/v4/song/search?api_key=IRQFDNLAMR8ZPGXYQ&artist=" + getArtistName(page) + "&format=json&start=0&results=100&sort=song_hotttnesss-desc&bucket=audio_summary", EchoReply.class);
-        // TODO - create while loop to page through all results (only 100 can be returned at a time)
+        Page page = restTemplate.getForObject(
+                "https://api.spotify.com/v1/search?query=" +formFields.getSearch() +
+                        "&offset=0&limit=1&type=track", Page.class);
+        EchoReply echoReply = restTemplate.getForObject(
+                "http://developer.echonest.com/api/v4/song/search?api_key=IRQFDNLAMR8ZPGXYQ&artist=" +
+                        getArtistName(page) +
+                        "&format=json&start=0&results=100&sort=song_hotttnesss-desc&bucket=audio_summary",
+                EchoReply.class);
 
-        List<EchoSong> songList = echoReply.getResponse().getSongs();
+        List<EchoSong> songList = echoReply.getSongsFromResponse();
 
-        List<EchoSong> filteredSongList = filterSongList(songList, SongFilterType.TEMPO);
+        List<EchoSong> filteredSongList = filterSongList(
+                songList, SongFilterType.TEMPO);
 
         formFields.setSongs(filteredSongList);
 

@@ -1,7 +1,7 @@
 package goodstuff.web;
 
-import goodstuff.echonest.EchoSong;
-import goodstuff.spotify.Track;
+import goodstuff.external.echonest.EchoSong;
+import goodstuff.external.spotify.Track;
 
 import java.util.Arrays;
 import java.util.List;
