@@ -17,7 +17,8 @@ import java.util.List;
 
 
 /**
- * Created by webb on 10/18/14.
+ * WebController - Maps HTTP requests
+ * Automatically discovered by Spring's ComponentScan in Application.java
  */
 @Controller
 public class WebController {
