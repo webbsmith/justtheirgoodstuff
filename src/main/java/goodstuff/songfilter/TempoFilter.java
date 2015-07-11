@@ -42,7 +42,7 @@ class TempoFilter implements SongFilter {
         int firstSongIndex = songIndex - NUMBER_OF_OTHER_SONGS/2;
         int lastSongIndex = songIndex + NUMBER_OF_OTHER_SONGS/2;
 
-        for (int i = firstSongIndex > 0 ? firstSongIndex : 0; i < lastSongIndex; i++) {
+        for (int i = firstSongIndex > 0 ? firstSongIndex : 0; i <= lastSongIndex; i++) {
             try {
                 surroundingSongs.add(songList.get(i));
             } catch (IndexOutOfBoundsException e) {
