@@ -2,15 +2,14 @@ package goodstuff.songfilter;
 
 import goodstuff.external.echonest.EchoSong;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by webbs_000 on 7/11/2015.
  */
 class TempoFilter implements SongFilter {
+
+    private static final int NUMBER_OF_OTHER_SONGS = 14;
 
     @Override
     public List<EchoSong> filter(List<EchoSong> songList, String songName) {
@@ -18,45 +17,39 @@ class TempoFilter implements SongFilter {
         // TODO - remove duplicates (it's sorted by hotttnesss descending so keep the first one)
         List<EchoSong> songListNoDuplicates = new ArrayList<EchoSong>(new LinkedHashSet<EchoSong>(songList));
         /* Tempo calculation: // TODO - Reevaluate calculation, only return similar tempo
-
-           get the 7 songs closest to the input song's tempo.
-
+           get the 14 songs closest to the input song's tempo.
          */
 
-        List<Double> tempoList = new ArrayList<Double>();
-        String a = null;
-        for (EchoSong song : songListNoDuplicates) {
-            if (song.getTitle().matches("^.*(?i)last.*$")) { //DEBUG
-                System.out.println(song.getTitle());
-                if (a == null)
-                    a = song.getTitle();
-                else
-                    System.out.println(a.equalsIgnoreCase(song.getTitle()));
+        Collections.sort(songListNoDuplicates, new TempoComparator());
 
+        int songIndex = getSongIndex(songName, songListNoDuplicates);
+
+        return getSurroundingSongs(songListNoDuplicates, songIndex);
+    }
+
+    private int getSongIndex(String songName, List<EchoSong> songList) {
+        for (int i = 0; i < songList.size(); i++)
+            if (songName.equals(songList.get(i).getTitle())) {
+                return i;
             }
-            tempoList.add(song.getAudio_summary().getTempo());
-        }
-        Collections.sort(tempoList);
 
-        double max = Collections.max(tempoList);
-        double min = Collections.min(tempoList);
-        double range = max - min;
+        throw new RuntimeException("Failed to retrieve song index. Song name: " + songName);
+    }
 
-        // TODO - update to only use one song list
-        List<EchoSong> songList1 = new ArrayList<EchoSong>();
-        List<EchoSong> songList2 = new ArrayList<EchoSong>();
-        List<EchoSong> songList3 = new ArrayList<EchoSong>();
+    private List<EchoSong> getSurroundingSongs(List<EchoSong> songList, int songIndex) {
 
-        for (EchoSong song : songListNoDuplicates) {
-            double tempo = song.getAudio_summary().getTempo();
-            if (tempo < (min + range / 3))
-                songList1.add(song);
-            else if (tempo < (max - range / 3))
-                songList2.add(song);
-            else
-                songList3.add(song);
+        List<EchoSong> surroundingSongs = new ArrayList<EchoSong>();
+        int firstSongIndex = songIndex - NUMBER_OF_OTHER_SONGS/2;
+        int lastSongIndex = songIndex + NUMBER_OF_OTHER_SONGS/2;
+
+        for (int i = firstSongIndex > 0 ? firstSongIndex : 0; i < lastSongIndex; i++) {
+            try {
+                surroundingSongs.add(songList.get(i));
+            } catch (IndexOutOfBoundsException e) {
+                break;
+            }
         }
 
-        return songList2;
+        return surroundingSongs;
     }
 }
