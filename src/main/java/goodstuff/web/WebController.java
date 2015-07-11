@@ -3,6 +3,8 @@ package goodstuff.web;
 import com.google.gson.Gson;
 import goodstuff.echonest.EchoReply;
 import goodstuff.echonest.EchoSong;
+import goodstuff.songfilter.SongFilterType;
+import goodstuff.songfilter.SongFilterer;
 import goodstuff.spotify.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,55 +44,9 @@ public class WebController {
 
         List<EchoSong> songList = echoReply.getResponse().getSongs();
 
-        // TODO - remove duplicates (it's sorted by hotttnesss descending so keep the first one)
-        List<EchoSong> songListNoDuplicates = new ArrayList<EchoSong>(new LinkedHashSet<EchoSong>(songList));
-        songList.clear();
-        songList.addAll(songListNoDuplicates);
+        List<EchoSong> filteredSongList = filterSongList(songList, SongFilterType.TEMPO);
 
-        /* Tempo calculation:
-
-           remove outliers (will maybe add later)
-           max = highest tempo
-           min = lowest tempo
-           range = max - min
-           low tempo < (min + range/3) < mid tempo < (max - range/3) < high tempo
-
-         */
-
-        List<Double> tempoList = new ArrayList<Double>();
-        String a = null;
-        for (EchoSong song : songList) {
-            if (song.getTitle().matches("^.*(?i)last.*$")) { //DEBUG
-                System.out.println(song.getTitle());
-                if (a == null)
-                    a = song.getTitle();
-                else
-                    System.out.println(a.equalsIgnoreCase(song.getTitle()));
-
-            }
-            tempoList.add(song.getAudio_summary().getTempo());
-        }
-        Collections.sort(tempoList);
-
-        double max = Collections.max(tempoList);
-        double min = Collections.min(tempoList);
-        double range = max - min;
-
-        List<EchoSong> songList1 = new ArrayList<EchoSong>();
-        List<EchoSong> songList2 = new ArrayList<EchoSong>();
-        List<EchoSong> songList3 = new ArrayList<EchoSong>();
-
-        for (EchoSong song : songList) {
-            double tempo = song.getAudio_summary().getTempo();
-            if (tempo < (min + range / 3))
-                songList1.add(song);
-            else if (tempo < (max - range / 3))
-                songList2.add(song);
-            else
-                songList3.add(song);
-        }
-
-        formFields.setSongs(songList1);
+        formFields.setSongs(filteredSongList);
 
         formFields.setArtist(getArtistName(page).replace('+',' '));
 
@@ -102,6 +58,10 @@ public class WebController {
         }
         model.addAttribute("formFields", formFields);
         return "justtheirgoodstuff";
+    }
+
+    private List<EchoSong> filterSongList(List<EchoSong> songList, SongFilterType filterType) {
+        return SongFilterer.filterSongList(songList, filterType);
     }
 
     private String getArtistId(Page page) {
