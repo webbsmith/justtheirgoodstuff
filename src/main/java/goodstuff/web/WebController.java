@@ -34,11 +34,17 @@ public class WebController {
 
         String json = new Gson().toJson(formFields);
 
+        String songSearch = formFields.getSearch();
+
         RestTemplate restTemplate = new RestTemplate();
         Page page = restTemplate.getForObject(
-                "https://api.spotify.com/v1/search?query=" +formFields.getSearch() +
+                "https://api.spotify.com/v1/search?query=" + songSearch +
                         "&offset=0&limit=1&type=track", Page.class);
+        String songName = getSongName(page);
         String artistName = getArtistName(page);
+
+        System.out.printf("search: '%s'\nsong_found: '%s'\nartist_found: '%s'\n",
+                songSearch, songName, artistName);
 
         EchoReply echoReply = restTemplate.getForObject(
                 "http://developer.echonest.com/api/v4/song/search?api_key=IRQFDNLAMR8ZPGXYQ&artist=" +
@@ -47,7 +53,7 @@ public class WebController {
                 EchoReply.class);
 
         List<EchoSong> filteredSongList = filterSongList(
-                echoReply.getSongsFromResponse(), SongFilterType.TEMPO);
+                echoReply.getSongsFromResponse(), songName, SongFilterType.TEMPO);
 
         formFields.setSongs(filteredSongList);
         formFields.setArtist(artistName.replace('+',' '));
@@ -62,12 +68,17 @@ public class WebController {
         return "justtheirgoodstuff";
     }
 
-    private List<EchoSong> filterSongList(List<EchoSong> songList, SongFilterType filterType) {
-        return SongFilterer.filterSongList(songList, filterType);
+    private List<EchoSong> filterSongList(
+            List<EchoSong> songList, String songName, SongFilterType filterType) {
+        return SongFilterer.filterSongList(songList, songName, filterType);
     }
 
     private String getArtistId(Page page) {
         return page.getTracks().getItems().get(0).getArtists().get(0).getId();
+    }
+
+    private String getSongName(Page page) {
+        return page.getTracks().getItems().get(0).getName();
     }
 
     private String getArtistName(Page page) {

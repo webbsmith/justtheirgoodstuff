@@ -13,26 +13,19 @@ import java.util.List;
 class TempoFilter implements SongFilter {
 
     @Override
-    public List<EchoSong> filter(List<EchoSong> songList) {
+    public List<EchoSong> filter(List<EchoSong> songList, String songName) {
 
         // TODO - remove duplicates (it's sorted by hotttnesss descending so keep the first one)
         List<EchoSong> songListNoDuplicates = new ArrayList<EchoSong>(new LinkedHashSet<EchoSong>(songList));
-        songList.clear();
-        songList.addAll(songListNoDuplicates);
-
         /* Tempo calculation: // TODO - Reevaluate calculation, only return similar tempo
 
-           remove outliers (will maybe add later)
-           max = highest tempo
-           min = lowest tempo
-           range = max - min
-           low tempo < (min + range/3) < mid tempo < (max - range/3) < high tempo
+           get the 7 songs closest to the input song's tempo.
 
          */
 
         List<Double> tempoList = new ArrayList<Double>();
         String a = null;
-        for (EchoSong song : songList) {
+        for (EchoSong song : songListNoDuplicates) {
             if (song.getTitle().matches("^.*(?i)last.*$")) { //DEBUG
                 System.out.println(song.getTitle());
                 if (a == null)
@@ -54,7 +47,7 @@ class TempoFilter implements SongFilter {
         List<EchoSong> songList2 = new ArrayList<EchoSong>();
         List<EchoSong> songList3 = new ArrayList<EchoSong>();
 
-        for (EchoSong song : songList) {
+        for (EchoSong song : songListNoDuplicates) {
             double tempo = song.getAudio_summary().getTempo();
             if (tempo < (min + range / 3))
                 songList1.add(song);

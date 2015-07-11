@@ -9,14 +9,16 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Track {
-    List<Artist> artists;
-    int track_number;
+    private List<Artist> artists;
+    private int track_number;
+    private String name;
 
     @Override
     public String toString() {
         return "Track{" +
                 "artists=" + artists +
                 ", track_number=" + track_number +
+                ", name='" + name + '\'' +
                 '}';
     }
 
@@ -34,5 +36,13 @@ public class Track {
 
     public void setArtists(List<Artist> artists) {
         this.artists = artists;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

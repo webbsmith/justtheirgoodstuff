@@ -10,8 +10,9 @@ import java.util.List;
 public enum SongFilterer {
     INSTANCE;
 
-    public static List<EchoSong> filterSongList(List<EchoSong> songList, SongFilterType filterType) {
+    public static List<EchoSong> filterSongList(
+            List<EchoSong> songList, String songName, SongFilterType filterType) {
         SongFilter songFilter = SongFilterFactory.getFilter(filterType);
-        return songFilter.filter(songList);
+        return songFilter.filter(songList, songName);
     }
 }
