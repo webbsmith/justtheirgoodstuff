@@ -1,4 +1,4 @@
-package goodstuff;
+package goodstuff.spotify;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,5 +1,8 @@
 package goodstuff;
 
+import goodstuff.echonest.EchoSong;
+import goodstuff.spotify.Track;
+
 import java.util.Arrays;
 import java.util.List;
 

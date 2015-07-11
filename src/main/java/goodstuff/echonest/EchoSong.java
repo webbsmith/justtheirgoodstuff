@@ -1,4 +1,4 @@
-package goodstuff;
+package goodstuff.echonest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
