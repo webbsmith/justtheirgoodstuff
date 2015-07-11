@@ -37,20 +37,19 @@ public class WebController {
         Page page = restTemplate.getForObject(
                 "https://api.spotify.com/v1/search?query=" +formFields.getSearch() +
                         "&offset=0&limit=1&type=track", Page.class);
+        String artistName = getArtistName(page);
+
         EchoReply echoReply = restTemplate.getForObject(
                 "http://developer.echonest.com/api/v4/song/search?api_key=IRQFDNLAMR8ZPGXYQ&artist=" +
-                        getArtistName(page) +
+                         artistName +
                         "&format=json&start=0&results=100&sort=song_hotttnesss-desc&bucket=audio_summary",
                 EchoReply.class);
 
-        List<EchoSong> songList = echoReply.getSongsFromResponse();
-
         List<EchoSong> filteredSongList = filterSongList(
-                songList, SongFilterType.TEMPO);
+                echoReply.getSongsFromResponse(), SongFilterType.TEMPO);
 
         formFields.setSongs(filteredSongList);
-
-        formFields.setArtist(getArtistName(page).replace('+',' '));
+        formFields.setArtist(artistName.replace('+',' '));
 
         try {
             System.out.println("Result from spotify API: " + page);
