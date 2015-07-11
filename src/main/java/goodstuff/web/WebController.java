@@ -90,9 +90,7 @@ public class WebController {
                 songList3.add(song);
         }
 
-        formFields.setSongs1(songList1);
-        formFields.setSongs2(songList2);
-        formFields.setSongs3(songList3);
+        formFields.setSongs(songList1);
 
         formFields.setArtist(getArtistName(page).replace('+',' '));
 

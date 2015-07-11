@@ -14,9 +14,7 @@ public class FormFields {
     String search;
     String artist;
     Track[] tracks;
-    List<EchoSong> songs1;
-    List<EchoSong> songs2;
-    List<EchoSong> songs3;
+    List<EchoSong> songs;
 
     @Override
     public String toString() {
@@ -24,42 +22,12 @@ public class FormFields {
                 "search='" + search + '\'' +
                 ", artist='" + artist + '\'' +
                 ", tracks=" + Arrays.toString(tracks) +
-                ", songs1=" + songs1 +
-                ", songs2=" + songs2 +
-                ", songs3=" + songs3 +
+                ", songs=" + songs +
                 '}';
     }
 
-    public Track[] getTracks() {
-        return tracks;
-    }
-
-    public void setTracks(Track[] tracks) {
-        this.tracks = tracks;
-    }
-
-    public List<EchoSong> getSongs1() {
-        return songs1;
-    }
-
-    public void setSongs1(List<EchoSong> songs1) {
-        this.songs1 = songs1;
-    }
-
-    public List<EchoSong> getSongs2() {
-        return songs2;
-    }
-
-    public void setSongs2(List<EchoSong> songs2) {
-        this.songs2 = songs2;
-    }
-
-    public List<EchoSong> getSongs3() {
-        return songs3;
-    }
-
-    public void setSongs3(List<EchoSong> songs3) {
-        this.songs3 = songs3;
+    private String convertSpaces(String s) {
+        return s.replaceAll(" ", "+");
     }
 
     public String getSearch() {
@@ -67,7 +35,7 @@ public class FormFields {
     }
 
     public void setSearch(String search) {
-        this.search = convertSpaces(search);
+        this.search = search;
     }
 
     public String getArtist() {
@@ -78,8 +46,20 @@ public class FormFields {
         this.artist = artist;
     }
 
-    private String convertSpaces(String s) {
-        return s.replaceAll(" ", "+");
+    public Track[] getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(Track[] tracks) {
+        this.tracks = tracks;
+    }
+
+    public List<EchoSong> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<EchoSong> songs) {
+        this.songs = songs;
     }
 
 }

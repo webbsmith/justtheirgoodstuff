@@ -61,34 +61,14 @@
     <h2 th:text="${formFields.artist}"></h2>
 
     <div class="row row-centered">
-        <div class="col-xs-3 col-centered">
+        <div class="col-md-12 col-centered">
             <table>
-                <h3>Low Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
-                <tr th:each="song : ${formFields.songs1}">
-                    <td th:text="${song.audio_summary.tempo} + ' ' + ${song.title}">Default</td>
-                </tr>
-            </table>
-
-        </div>
-
-        <div class="col-xs-3 col-centered">
-            <table>
-                <h3>Mid Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
-                <tr th:each="song : ${formFields.songs2}">
+                <h3>Similar Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
+                <tr th:each="song : ${formFields.songs}">
                     <td th:text="${song.audio_summary.tempo} + ' ' + ${song.title}">Default</td>
                 </tr>
             </table>
         </div>
-
-        <div class="col-xs-3 col-centered">
-            <table>
-                <h3>High Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
-                <tr th:each="song : ${formFields.songs3}">
-                    <td th:text="${song.audio_summary.tempo} + ' ' + ${song.title}">Default</td>
-                </tr>
-            </table>
-        </div>
-
     </div>
 
     <hr/>
