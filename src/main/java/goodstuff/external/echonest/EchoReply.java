@@ -1,6 +1,8 @@
-package goodstuff.echonest;
+package goodstuff.external.echonest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
 
 /**
  * Created by webb on 10/19/14.
@@ -15,6 +17,10 @@ public class EchoReply {
         return "EchoReply{" +
                 "response=" + response +
                 '}';
+    }
+
+    public List<EchoSong> getSongsFromResponse() {
+        return getResponse().getSongs();
     }
 
     public EchoResponse getResponse() {

@@ -1,4 +1,4 @@
-package goodstuff.echonest;
+package goodstuff.external.echonest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EchoResponse {
-    List<EchoSong> songs;
+    private List<EchoSong> songs;
 
     @Override
     public String toString() {
