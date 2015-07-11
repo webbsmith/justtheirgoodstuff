@@ -1,4 +1,4 @@
-package goodstuff;
+package goodstuff.web;
 
 import goodstuff.echonest.EchoSong;
 import goodstuff.spotify.Track;

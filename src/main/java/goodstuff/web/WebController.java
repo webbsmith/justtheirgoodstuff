@@ -1,4 +1,4 @@
-package goodstuff;
+package goodstuff.web;
 
 import com.google.gson.Gson;
 import goodstuff.echonest.EchoReply;
