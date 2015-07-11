@@ -53,7 +53,7 @@ public class WebController {
 
         try {
             System.out.println("Result from spotify API: " + page);
-            System.out.println("Artist Name: " + getArtistName(page) + "\nArtist ID: " + getArtistId(page));
+            System.out.println("Artist Name: " + artistName + "\nArtist ID: " + getArtistId(page));
         } catch (Exception e) {
             e.printStackTrace();
         }
