@@ -12,7 +12,7 @@ public enum SongFilterer {
 
     public static List<EchoSong> filterSongList(
             List<EchoSong> songList, String songName, SongFilterType filterType) {
-        SongFilter songFilter = SongFilterFactory.getFilter(filterType);
+        SongFilter songFilter = new ComparatorFilter(SongComparatorFactory.getComparator(filterType));
         return songFilter.filter(songList, songName);
     }
 }

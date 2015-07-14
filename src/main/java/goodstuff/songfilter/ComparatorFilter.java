@@ -7,18 +7,19 @@ import java.util.*;
 /**
  * Created by webbs_000 on 7/11/2015.
  */
-class TempoFilter implements SongFilter {
+class ComparatorFilter implements SongFilter {
 
+    // number of songs to output (other than the provided song)
     private static final int NUMBER_OF_OTHER_SONGS = 14;
+
+    public ComparatorFilter(Comparator<EchoSong> songComparator) {
+    }
 
     @Override
     public List<EchoSong> filter(List<EchoSong> songList, String songName) {
 
-        // TODO - remove duplicates (it's sorted by hotttnesss descending so keep the first one)
+        // Remove duplicates (it's sorted by 'hotttnesss' descending so keep the first one)
         List<EchoSong> songListNoDuplicates = new ArrayList<EchoSong>(new LinkedHashSet<EchoSong>(songList));
-        /* Tempo calculation: // TODO - Reevaluate calculation, only return similar tempo
-           get the 14 songs closest to the input song's tempo.
-         */
 
         Collections.sort(songListNoDuplicates, new TempoComparator());
 
