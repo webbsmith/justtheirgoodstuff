@@ -10,15 +10,6 @@ import java.util.Comparator;
 public class TempoComparator implements Comparator<EchoSong> {
     @Override
     public int compare(EchoSong o1, EchoSong o2) {
-        return compare(o1.getAudio_summary().getTempo(), o2.getAudio_summary().getTempo());
-    }
-
-    private static int compare(double d1, double d2) {
-        if (d1 < d2)
-            return -1;
-        else if (d1 > d2)
-            return 1;
-        else
-            return 0;
+        return Double.compare(o1.getAudio_summary().getTempo(), o2.getAudio_summary().getTempo());
     }
 }
