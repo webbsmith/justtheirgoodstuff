@@ -1,4 +1,4 @@
-package goodstuff.songfilter;
+package goodstuff.songfilter.comparator;
 
 import goodstuff.external.echonest.EchoSong;
 
