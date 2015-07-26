@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -43,19 +44,20 @@
         <form action="#" th:action="@{/justtheirgoodstuff}" th:object="${formFields}" method="post">
             <label for="search">Enter a song you like: </label>
             <input th:field="*{search}" type="text" id="search" placeholder="I and Love and You"/>
+
+            <div>
+                <h2>What do you like about it?</h2>
+                <ul>
+                    <li><input th:field="*{likeAboutIt}" type="radio" class="btn btn-lg btn-primary" th:value="Tempo" />Tempo</li>
+                    <li><input th:field="*{likeAboutIt}" type="radio" class="btn btn-lg btn-default" th:value="Danceability" />Danceability</li>
+                    <li><input th:field="*{likeAboutIt}" type="radio" class="btn btn-lg btn-default" th:value="Vocals" />Vocals</li>
+                    <li><input th:field="*{likeAboutIt}" type="radio" class="btn btn-lg btn-default" th:value="LackOfVocals" />Lack of Vocals</li>
+                    <li><input th:field="*{likeAboutIt}" type="radio" class="btn btn-lg btn-default" th:value="ItsCatchy" />It's Catchy</li>
+                </ul>
+            </div>
+
             <input type="submit" value="Search" class="btn btn-lg btn-primary"/>
         </form>
-    </div>
-
-    <div>
-        <h2>What do you like about it?</h2>
-        <p>
-            <button type="button" class="btn btn-lg btn-primary">Tempo</button>
-            <button type="button" class="btn btn-lg btn-default">Bass</button>
-            <button type="button" class="btn btn-lg btn-default">Vocals</button>
-            <button type="button" class="btn btn-lg btn-default">Lack of Vocals</button>
-            <button type="button" class="btn btn-lg btn-default">It's Catchy</button>
-        </p>
     </div>
 
     <h2 th:text="${formFields.artist}"></h2>
@@ -63,9 +65,12 @@
     <div class="row row-centered">
         <div class="col-md-12 col-centered">
             <table>
-                <h3>Similar Tempo <button type="button" class="btn btn-xs btn-success">Create Playlist</button></h3>
+                <h3>
+                    <b th:text="'Songs with similar ' + ${formFields.likeAboutIt}">Wireframe </b>
+                    <button type="button" class="btn btn-xs btn-success">Create Playlist</button>
+                </h3>
                 <tr th:each="song : ${formFields.songs}">
-                    <td th:text="${song.audio_summary.tempo} + ' ' + ${song.title}">Default</td>
+                    <td th:text="${song.title}">Wireframe</td>
                 </tr>
             </table>
         </div>

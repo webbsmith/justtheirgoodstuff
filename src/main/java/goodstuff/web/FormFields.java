@@ -11,19 +11,29 @@ import java.util.List;
  */
 public class FormFields {
 
-    String search;
-    String artist;
-    Track[] tracks;
-    List<EchoSong> songs;
+    private String search;
+    private String artist;
+    private String likeAboutIt;
+    private Track[] tracks;
+    private List<EchoSong> songs;
 
     @Override
     public String toString() {
         return "FormFields{" +
                 "search='" + search + '\'' +
                 ", artist='" + artist + '\'' +
+                ", likeAboutIt='" + likeAboutIt + '\'' +
                 ", tracks=" + Arrays.toString(tracks) +
                 ", songs=" + songs +
                 '}';
+    }
+
+    public String getLikeAboutIt() {
+        return likeAboutIt;
+    }
+
+    public void setLikeAboutIt(String likeAboutIt) {
+        this.likeAboutIt = likeAboutIt;
     }
 
     private String convertSpaces(String s) {

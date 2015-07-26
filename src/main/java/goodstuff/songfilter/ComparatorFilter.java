@@ -9,10 +9,13 @@ import java.util.*;
  */
 class ComparatorFilter implements SongFilter {
 
+    private Comparator<EchoSong> songComparator;
+
     // number of songs to output (other than the provided song)
     private static final int NUMBER_OF_OTHER_SONGS = 14;
 
     public ComparatorFilter(Comparator<EchoSong> songComparator) {
+        this.songComparator = songComparator;
     }
 
     @Override
@@ -21,7 +24,7 @@ class ComparatorFilter implements SongFilter {
         // Remove duplicates (it's sorted by 'hotttnesss' descending so keep the first one)
         List<EchoSong> songListNoDuplicates = new ArrayList<EchoSong>(new LinkedHashSet<EchoSong>(songList));
 
-        Collections.sort(songListNoDuplicates, new TempoComparator());
+        Collections.sort(songListNoDuplicates, songComparator);
 
         int songIndex = getSongIndex(songName, songListNoDuplicates);
 

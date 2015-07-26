@@ -12,8 +12,11 @@ class SongComparatorFactory {
         switch (filterType) {
             case TEMPO:
                 return new TempoComparator();
+            case DANCEABILITY:
+                return new DanceabilityComparator();
             default:
-                return new TempoComparator(); // TODO - remove default
+                throw new IllegalArgumentException("Filter type '" + filterType +
+                        "' not defined in SongComparatorFactory");
         }
     }
 }

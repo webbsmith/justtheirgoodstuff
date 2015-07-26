@@ -53,7 +53,15 @@ public class WebController {
                 EchoReply.class);
 
         List<EchoSong> filteredSongList = filterSongList(
-                echoReply.getSongsFromResponse(), songName, SongFilterType.TEMPO);
+                echoReply.getSongsFromResponse(),
+                songName,
+                SongFilterType.toSongFilterType(formFields.getLikeAboutIt())
+        );
+
+        // DEBUGGING
+        for (EchoSong song : filteredSongList) {
+            System.out.println(song);
+        }
 
         formFields.setSongs(filteredSongList);
         formFields.setArtist(artistName.replace('+',' '));
@@ -64,6 +72,10 @@ public class WebController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // DEBUGGING
+        System.out.println(formFields.getLikeAboutIt());
+
         model.addAttribute("formFields", formFields);
         return "justtheirgoodstuff";
     }
