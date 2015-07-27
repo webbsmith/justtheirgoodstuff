@@ -15,6 +15,8 @@ public class SongComparatorFactory {
                 return new TempoComparator();
             case DANCEABILITY:
                 return new DanceabilityComparator();
+            case CATCHINESS:
+                return new CatchinessComparator();
             default:
                 throw new IllegalArgumentException("Filter type '" + filterType +
                         "' not defined in SongComparatorFactory");
