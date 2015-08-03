@@ -65,7 +65,7 @@
         <div class="col-md-12 col-centered">
             <table>
                 <h3>
-                    <b th:text="'Songs with similar ' + ${formFields.likeAboutIt}">Wireframe </b>
+                    <b th:if="${formFields.likeAboutIt != null}" th:text="'Songs with similar ' + ${formFields.likeAboutIt}">Wireframe </b>
                     <button type="button" class="btn btn-xs btn-success">Create Playlist</button>
                 </h3>
                 <tr th:each="song : ${formFields.songs}">
