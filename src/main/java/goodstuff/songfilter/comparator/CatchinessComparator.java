@@ -8,7 +8,7 @@ import java.util.Comparator;
 /**
  * Created by webbs_000 on 7/26/2015.
  */
-public class CatchinessComparator implements Comparator<EchoSong> {
+class CatchinessComparator implements Comparator<EchoSong> {
     @Override
     public int compare(EchoSong o1, EchoSong o2) {
         EchoAudioSummary as1 = o1.getAudio_summary();
