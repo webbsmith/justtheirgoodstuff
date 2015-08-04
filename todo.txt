@@ -1,0 +1,4 @@
+don't blow up when there are no results
+artist selector
+create playlist functionality
+pretty up UI
