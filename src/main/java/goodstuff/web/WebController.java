@@ -40,6 +40,12 @@ public class WebController {
         Page page = restTemplate.getForObject(
                 "https://api.spotify.com/v1/search?query=" + songSearch +
                         "&offset=0&limit=1&type=track", Page.class);
+        if (page.getTracks().getItems().size() == 0) {
+            formFields.setSuccess(false);
+            formFields.setErrorMessage("No results found");
+            model.addAttribute("formFields", formFields);
+            return "justtheirgoodstuff";
+        }
         String songName = getSongName(page);
         String artistName = getArtistName(page);
 
@@ -76,6 +82,7 @@ public class WebController {
         // DEBUGGING
         System.out.println(formFields.getLikeAboutIt());
 
+        formFields.setSuccess(true);
         model.addAttribute("formFields", formFields);
         return "justtheirgoodstuff";
     }

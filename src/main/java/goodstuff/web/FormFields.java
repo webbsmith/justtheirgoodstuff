@@ -16,6 +16,8 @@ public class FormFields {
     private String likeAboutIt;
     private Track[] tracks;
     private List<EchoSong> songs;
+    private boolean success;
+    private String errorMessage;
 
     @Override
     public String toString() {
@@ -72,4 +74,20 @@ public class FormFields {
         this.songs = songs;
     }
 
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 }

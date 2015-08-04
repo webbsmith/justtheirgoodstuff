@@ -51,9 +51,16 @@ class ComparatorFilter implements SongFilter {
     }
 
     private int getSongIndexPartialMatch(String songName, List<EchoSong> songList) {
-        final Pattern firstWordInSongPattern = Pattern.compile(songName.split(" ")[0], Pattern.CASE_INSENSITIVE);
+        final Pattern firstWordInSongPattern = Pattern.compile(".*" + songName.split(" ")[0] + ".*", Pattern.CASE_INSENSITIVE);
         for (int i = 0; i < songList.size(); i++) {
             Matcher matcher = firstWordInSongPattern.matcher(songList.get(i).getTitle());
+            if (matcher.matches()) {
+                return i;
+            }
+        }
+        final Pattern secondWordInSongPattern = Pattern.compile(songName.split(".*[ :,\\.\\-_]+.*")[0], Pattern.CASE_INSENSITIVE);
+        for (int i = 0; i < songList.size(); i++) {
+            Matcher matcher = secondWordInSongPattern.matcher(songList.get(i).getTitle());
             if (matcher.matches()) {
                 return i;
             }

@@ -59,19 +59,22 @@
         </form>
     </div>
 
-    <h2 th:text="${formFields.artist}"></h2>
+    <h2 th:if="${!formFields.success}" th:text="${formFields.errorMessage}"></h2>
 
-    <div class="row row-centered">
-        <div class="col-md-12 col-centered">
-            <table>
-                <h3>
-                    <b th:if="${formFields.likeAboutIt != null}" th:text="'Songs with similar ' + ${formFields.likeAboutIt}">Wireframe </b>
-                    <button type="button" class="btn btn-xs btn-success">Create Playlist</button>
-                </h3>
-                <tr th:each="song : ${formFields.songs}">
-                    <td th:text="${song.title}">Wireframe</td>
-                </tr>
-            </table>
+    <div th:if="${formFields.success}" >
+    <h2 th:text="${formFields.artist}"></h2>
+        <div class="row row-centered">
+            <div class="col-md-12 col-centered">
+                <table>
+                    <h3>
+                        <b th:if="${formFields.likeAboutIt != null}" th:text="'Songs with similar ' + ${formFields.likeAboutIt}">Wireframe </b>
+                        <button type="button" class="btn btn-xs btn-success">Create Playlist</button>
+                    </h3>
+                    <tr th:each="song : ${formFields.songs}">
+                        <td th:text="${song.title}">Wireframe</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
