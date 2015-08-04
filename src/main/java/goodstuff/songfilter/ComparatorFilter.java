@@ -3,6 +3,8 @@ package goodstuff.songfilter;
 import goodstuff.external.echonest.EchoSong;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by webbs_000 on 7/11/2015.
@@ -32,12 +34,31 @@ class ComparatorFilter implements SongFilter {
     }
 
     private int getSongIndex(String songName, List<EchoSong> songList) {
-        for (int i = 0; i < songList.size(); i++)
+        try {
+            return getSongIndexExactMatch(songName, songList);
+        } catch (Exception e) {
+            return getSongIndexPartialMatch(songName, songList);
+        }
+    }
+
+    private int getSongIndexExactMatch(String songName, List<EchoSong> songList) throws Exception {
+        for (int i = 0; i < songList.size(); i++) {
             if (songName.equals(songList.get(i).getTitle())) {
                 return i;
             }
+        }
+        throw new Exception("Failed to retrieve exact song name match from song list. Song name: " + songName);
+    }
 
-        throw new RuntimeException("Failed to retrieve song index. Song name: " + songName);
+    private int getSongIndexPartialMatch(String songName, List<EchoSong> songList) {
+        final Pattern firstWordInSongPattern = Pattern.compile(songName.split(" ")[0], Pattern.CASE_INSENSITIVE);
+        for (int i = 0; i < songList.size(); i++) {
+            Matcher matcher = firstWordInSongPattern.matcher(songList.get(i).getTitle());
+            if (matcher.matches()) {
+                return i;
+            }
+        }
+        throw new RuntimeException("Failed to retrieve song name match from song list. Song name: " + songName);
     }
 
     private List<EchoSong> getSurroundingSongs(List<EchoSong> songList, int songIndex) {
