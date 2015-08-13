@@ -14,17 +14,28 @@ class CatchinessComparator implements Comparator<EchoSong> {
         EchoAudioSummary as1 = o1.getAudio_summary();
         EchoAudioSummary as2 = o2.getAudio_summary();
 
-        if (energyConsideredEqual(as1.getEnergy(), as2.getEnergy())) {
-            return Integer.compare(as1.getMode(), as2.getMode());
-        } else if (as1.getEnergy() < as2.getEnergy()) {
-            return -1;
-        } else {
-            return 1;
-        }
+        int energyComparison = compareEnergy(as1, as2);
+
+        if (energyComparison == 0)
+            return compareMode(as1, as2);
+        else
+            return energyComparison;
+
     }
 
-    private boolean energyConsideredEqual(double energy1, double energy2) {
-        double difference = Math.abs(energy2 - energy1);
-        return difference < 0.10;
+    private int compareMode(EchoAudioSummary as1, EchoAudioSummary as2) {
+        return Integer.compare(as1.getMode(), as2.getMode());
+    }
+
+    private int compareEnergy(EchoAudioSummary as1, EchoAudioSummary as2) {
+        int energy1 = times10(as1.getEnergy());
+        int energy2 = times10(as2.getEnergy());
+
+        return Integer.compare(energy1, energy2);
+    }
+
+    /** The energy from EchoNest is returned as a double between 0 and 1 */
+    private int times10(double energy) {
+        return (int)Math.round(energy * 10);
     }
 }
