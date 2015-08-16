@@ -8,7 +8,7 @@ public enum SongFilterType {
 
     public static SongFilterType toSongFilterType(String type) {
         for (SongFilterType songFilterType : SongFilterType.values())
-            if (type.equalsIgnoreCase(songFilterType.name()))
+            if (songFilterType.name().equalsIgnoreCase(type))
                 return songFilterType;
 
         throw new IllegalArgumentException("Type '" + type + "' is undefined in the SongFilterType enum");

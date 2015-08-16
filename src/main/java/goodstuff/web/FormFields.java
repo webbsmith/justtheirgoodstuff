@@ -13,9 +13,9 @@ public class FormFields {
 
     private String search;
     private String artist;
-    private String likeAboutIt;
+    private String likeAboutIt = "Tempo";
     private Track[] tracks;
-    private List<EchoSong> songs;
+    private List<String> songs;
     private boolean success;
     private String errorMessage;
 
@@ -66,11 +66,11 @@ public class FormFields {
         this.tracks = tracks;
     }
 
-    public List<EchoSong> getSongs() {
+    public List<String> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<EchoSong> songs) {
+    public void setSongs(List<String> songs) {
         this.songs = songs;
     }
 

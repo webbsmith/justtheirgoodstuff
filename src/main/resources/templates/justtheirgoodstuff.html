@@ -71,7 +71,7 @@
                         <button type="button" class="btn btn-xs btn-success">Create Playlist</button>
                     </h3>
                     <tr th:each="song : ${formFields.songs}">
-                        <td th:text="${song.title}">Wireframe</td>
+                        <td th:text="${song}">Wireframe</td>
                     </tr>
                 </table>
             </div>
