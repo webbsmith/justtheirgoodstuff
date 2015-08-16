@@ -1,11 +1,10 @@
 package goodstuff.web;
 
-import com.google.gson.Gson;
-import goodstuff.external.echonest.EchoReply;
-import goodstuff.external.echonest.EchoSong;
+import goodstuff.external.echonest.pojo.EchoReply;
+import goodstuff.external.echonest.pojo.EchoSong;
 import goodstuff.songfilter.SongFilterType;
 import goodstuff.songfilter.SongFilterer;
-import goodstuff.external.spotify.Page;
+import goodstuff.external.spotify.pojo.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,8 +30,6 @@ public class WebController {
 
     @RequestMapping(value="/justtheirgoodstuff", method=RequestMethod.POST)
     public String goodStuffFormSubmit(@ModelAttribute FormFields formFields, Model model) {
-
-        String json = new Gson().toJson(formFields);
 
         String songSearch = formFields.getSearch();
 

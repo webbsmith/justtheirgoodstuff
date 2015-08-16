@@ -1,6 +1,6 @@
 package goodstuff.songfilter;
 
-import goodstuff.external.echonest.EchoSong;
+import goodstuff.external.echonest.pojo.EchoSong;
 
 import java.util.*;
 import java.util.regex.Matcher;

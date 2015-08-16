@@ -1,6 +1,6 @@
 package goodstuff.songfilter.comparator;
 
-import goodstuff.external.echonest.EchoSong;
+import goodstuff.external.echonest.pojo.EchoSong;
 import goodstuff.songfilter.SongFilterType;
 
 import java.util.Comparator;
