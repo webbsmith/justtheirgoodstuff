@@ -12,7 +12,7 @@ public class Spotify {
 
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://api.spotify.com/v1/search?query=" + songSearch +
-                "&offset=0&limit=5&type=track";
+                "&offset=0&limit=5&type=track&market=US";
         Page page = restTemplate.getForObject(url, Page.class);
         System.out.println("Spotify URL: " + url);
         System.out.println("Track result count: " + page.getTracks().getItems().size());
