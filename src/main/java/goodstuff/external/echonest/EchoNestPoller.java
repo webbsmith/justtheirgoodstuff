@@ -45,6 +45,7 @@ public class EchoNestPoller {
         EchoReply echoReply = new RestTemplate().getForObject(
                 getSongAndArtistSearchUrl(artistName, songName),
                 EchoReply.class);
+        System.out.println("Track result count: " + echoReply.getSongsFromResponse().size());
         return new EchoSongListUtility().getSong(songName, echoReply.getSongsFromResponse());
     }
 
@@ -52,6 +53,7 @@ public class EchoNestPoller {
         EchoReply echoReply = new RestTemplate().getForObject(
                 getArtistSearchUrl(artistName, startingIndex),
                 EchoReply.class);
+        System.out.println("Track result count: " + echoReply.getSongsFromResponse().size());
         return echoReply.getSongsFromResponse();
     }
 
