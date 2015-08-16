@@ -37,10 +37,6 @@ public class EchoNestPoller {
         int startingIndex = 0;
         echoSongs.addAll(get100SongsByArtist(artistName, startingIndex));
 
-        if (echoSongs.size() == 100) { // Get the next 100 songs
-            echoSongs.addAll(get100SongsByArtist(artistName, startingIndex + 100));
-        }
-
         return echoSongs;
     }
 
