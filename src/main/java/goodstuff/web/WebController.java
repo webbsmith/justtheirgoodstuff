@@ -2,21 +2,11 @@ package goodstuff.web;
 
 import goodstuff.external.FilteredSearchResults;
 import goodstuff.external.SearchAndFilter;
-import goodstuff.external.echonest.EchoNest;
-import goodstuff.external.echonest.pojo.EchoReply;
-import goodstuff.external.echonest.pojo.EchoSong;
-import goodstuff.external.spotify.Spotify;
-import goodstuff.songfilter.SongFilterType;
-import goodstuff.songfilter.SongFilterer;
-import goodstuff.external.spotify.pojo.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 
 /**

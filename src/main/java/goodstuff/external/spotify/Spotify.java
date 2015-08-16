@@ -11,9 +11,11 @@ public class Spotify {
     public Result searchSpotifyApi(String songSearch) {
 
         RestTemplate restTemplate = new RestTemplate();
-        Page page = restTemplate.getForObject(
-                "https://api.spotify.com/v1/search?query=" + songSearch +
-                        "&offset=0&limit=1&type=track", Page.class);
+        String url = "https://api.spotify.com/v1/search?query=" + songSearch +
+                "&offset=0&limit=5&type=track";
+        Page page = restTemplate.getForObject(url, Page.class);
+        System.out.println("Spotify URL: " + url);
+        System.out.println("Track result count: " + page.getTracks().getItems().size());
         return new Result(page);
     }
 

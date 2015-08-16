@@ -1,5 +1,6 @@
 package goodstuff.songfilter;
 
+import goodstuff.external.echonest.FailedToRetrieveSongFromEchoNestException;
 import goodstuff.external.echonest.pojo.EchoSong;
 
 import java.util.List;
