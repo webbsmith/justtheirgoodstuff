@@ -1,4 +1,4 @@
-package goodstuff.external.echonest;
+package goodstuff.external.echonest.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
