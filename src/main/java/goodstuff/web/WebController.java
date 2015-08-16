@@ -2,6 +2,7 @@ package goodstuff.web;
 
 import goodstuff.external.echonest.pojo.EchoReply;
 import goodstuff.external.echonest.pojo.EchoSong;
+import goodstuff.external.spotify.Spotify;
 import goodstuff.songfilter.SongFilterType;
 import goodstuff.songfilter.SongFilterer;
 import goodstuff.external.spotify.pojo.Page;
@@ -33,54 +34,32 @@ public class WebController {
 
         String songSearch = formFields.getSearch();
 
-        RestTemplate restTemplate = new RestTemplate();
-        Page page = restTemplate.getForObject(
-                "https://api.spotify.com/v1/search?query=" + songSearch +
-                        "&offset=0&limit=1&type=track", Page.class);
-        if (page.getTracks().getItems().size() == 0) {
+        Spotify.Result spotifyResult = new Spotify().searchSpotifyApi(songSearch);
+
+        if (spotifyResult.isEmpty()) {
             formFields.setSuccess(false);
             formFields.setErrorMessage("No results found");
             model.addAttribute("formFields", formFields);
             return "justtheirgoodstuff";
         }
-        String songName = getSongName(page);
-        String artistName = getArtistName(page);
 
-        System.out.printf("search: '%s'\nsong_found: '%s'\nartist_found: '%s'\n",
-                songSearch, songName, artistName);
-
-        EchoReply echoReply = restTemplate.getForObject(
+        EchoReply echoReply = new RestTemplate().getForObject(
                 "http://developer.echonest.com/api/v4/song/search?api_key=IRQFDNLAMR8ZPGXYQ&artist=" +
-                         artistName +
+                         spotifyResult.getArtistName() +
                         "&format=json&start=0&results=100&sort=song_hotttnesss-desc&bucket=audio_summary",
                 EchoReply.class);
 
         List<EchoSong> filteredSongList = filterSongList(
                 echoReply.getSongsFromResponse(),
-                songName,
+                spotifyResult.getSongName(),
                 SongFilterType.toSongFilterType(formFields.getLikeAboutIt())
         );
 
-        // DEBUGGING
-        for (EchoSong song : filteredSongList) {
-            System.out.println(song);
-        }
-
         formFields.setSongs(filteredSongList);
-        formFields.setArtist(artistName.replace('+',' '));
-
-        try {
-            System.out.println("Result from spotify API: " + page);
-            System.out.println("Artist Name: " + artistName + "\nArtist ID: " + getArtistId(page));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // DEBUGGING
-        System.out.println(formFields.getLikeAboutIt());
-
+        formFields.setArtist(spotifyResult.getArtistName().replace('+',' '));
         formFields.setSuccess(true);
         model.addAttribute("formFields", formFields);
+
         return "justtheirgoodstuff";
     }
 
@@ -88,19 +67,6 @@ public class WebController {
             List<EchoSong> songList, String songName, SongFilterType filterType) {
         return SongFilterer.filterSongList(songList, songName, filterType);
     }
-
-    private String getArtistId(Page page) {
-        return page.getTracks().getItems().get(0).getArtists().get(0).getId();
-    }
-
-    private String getSongName(Page page) {
-        return page.getTracks().getItems().get(0).getName();
-    }
-
-    private String getArtistName(Page page) {
-        return page.getTracks().getItems().get(0).getArtists().get(0).getName();
-    }
-
 
 
 }
