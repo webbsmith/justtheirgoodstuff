@@ -2,6 +2,7 @@ package goodstuff.web;
 
 import goodstuff.external.FilteredSearchResults;
 import goodstuff.external.SearchAndFilter;
+import goodstuff.external.SearchResultHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,10 +27,19 @@ public class WebController {
 
     @RequestMapping(value="/justtheirgoodstuff", method=RequestMethod.POST)
     public String goodStuffFormSubmit(@ModelAttribute FormFields formFields, Model model) {
+        System.out.println(formFields);
 
         String songSearch = formFields.getSearch();
 
-        FilteredSearchResults searchResults = SearchAndFilter.searchAndFilter(songSearch, formFields.getLikeAboutIt());
+        final SearchResultHolder.Key searchResultKey = SearchResultHolder.makeKey(songSearch, formFields.getArtist(), formFields.getLikeAboutIt());
+        final SearchResultHolder searchResultHolder = formFields.getSearchResultHolder(); // TODO - why isn't this persisting through submits? it's getting re-instantiatied every time
+
+        FilteredSearchResults searchResults = searchResultHolder.get(searchResultKey);
+
+        if (searchResults == null) {
+            searchResults = SearchAndFilter.searchAndFilter(songSearch, formFields.getLikeAboutIt());
+            searchResultHolder.put(searchResultKey, searchResults);
+        }
 
         if (searchResults.isEmpty()) {
             formFields.setSuccess(false);

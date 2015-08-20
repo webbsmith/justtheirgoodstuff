@@ -42,6 +42,8 @@
 
     <div class="jumbotron">
         <form action="#" th:action="@{/justtheirgoodstuff}" th:object="${formFields}" method="post">
+            <!-- debug --><h2 th:field="*{searchResultHolder}" th:value="${formFields.searchResultHolder}"></h2>
+
             <label for="search">Enter a song you like: </label>
             <input th:field="*{search}" type="text" id="search" placeholder="I and Love and You"/>
 

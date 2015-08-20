@@ -1,5 +1,6 @@
 package goodstuff.web;
 
+import goodstuff.external.SearchResultHolder;
 import goodstuff.external.echonest.pojo.EchoSong;
 import goodstuff.external.spotify.pojo.Track;
 
@@ -18,6 +19,7 @@ public class FormFields {
     private List<String> songs;
     private boolean success;
     private String errorMessage;
+    private SearchResultHolder searchResultHolder = new SearchResultHolder();
 
     @Override
     public String toString() {
@@ -27,6 +29,9 @@ public class FormFields {
                 ", likeAboutIt='" + likeAboutIt + '\'' +
                 ", tracks=" + Arrays.toString(tracks) +
                 ", songs=" + songs +
+                ", success=" + success +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", searchResultHolder=" + searchResultHolder +
                 '}';
     }
 
@@ -89,5 +94,13 @@ public class FormFields {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public SearchResultHolder getSearchResultHolder() {
+        return searchResultHolder;
+    }
+
+    public void setSearchResultHolder(SearchResultHolder searchResultHolder) {
+        this.searchResultHolder = searchResultHolder;
     }
 }
