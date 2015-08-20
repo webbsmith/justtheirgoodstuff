@@ -12,6 +12,7 @@ public class Track {
     private List<Artist> artists;
     private int track_number;
     private String name;
+    private int popularity;
 
     @Override
     public String toString() {
@@ -19,6 +20,7 @@ public class Track {
                 "artists=" + artists +
                 ", track_number=" + track_number +
                 ", name='" + name + '\'' +
+                ", popularity=" + popularity +
                 '}';
     }
 
@@ -44,5 +46,13 @@ public class Track {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 }

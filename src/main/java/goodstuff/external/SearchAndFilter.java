@@ -13,7 +13,8 @@ import java.util.List;
  */
 public class SearchAndFilter {
     public static FilteredSearchResults searchAndFilter(String songSearch, String filterName) {
-        Spotify.Result spotifyResult = new Spotify().searchSpotifyApi(songSearch);
+        Spotify.Results spotifyResults = new Spotify().searchSpotifyApi(songSearch);
+        Spotify.Result spotifyResult = spotifyResults.get(0);
         String artist = spotifyResult.getArtistName();
         List<EchoSong> filteredSongList;
         try {
