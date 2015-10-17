@@ -6,23 +6,38 @@ import java.util.List;
  * Created by webb on 8/15/15.
  */
 public class FilteredSearchResults {
-    private List<String> songNames;
-    private String artistName;
+    private final String selectedArtist;
+    private final List<String> selectedArtistSongs;
+    private final List<String> otherArtistList;
 
-    FilteredSearchResults(String artistName, List<String> songNames) {
-        this.artistName = artistName;
-        this.songNames = songNames;
+    FilteredSearchResults(String selectedArtist, List<String> selectedArtistSongs, List<String> otherArtistList) {
+        this.selectedArtist = selectedArtist;
+        this.selectedArtistSongs = selectedArtistSongs;
+        this.otherArtistList = otherArtistList;
     }
 
-    public boolean isEmpty() {
-        return songNames.isEmpty();
+    public boolean noSongs() {
+        return selectedArtistSongs.isEmpty();
     }
 
-    public List<String> getSongNames() {
-        return songNames;
+    public List<String> getSelectedArtistSongs() {
+        return selectedArtistSongs;
     }
 
-    public String getArtistName() {
-        return artistName;
+    public String getSelectedArtist() {
+        return selectedArtist;
+    }
+
+    public List<String> getOtherArtistList() {
+        return otherArtistList;
+    }
+
+    @Override
+    public String toString() {
+        return "FilteredSearchResults{" +
+                "selectedArtist='" + selectedArtist + '\'' +
+                ", selectedArtistSongs=" + selectedArtistSongs +
+                ", otherArtistList=" + otherArtistList +
+                '}';
     }
 }

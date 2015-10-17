@@ -34,6 +34,10 @@ public class Spotify {
             return empty;
         }
 
+        public int size() {
+            return resultList.size();
+        }
+
         public Result get(int index) {
             return resultList.get(index);
         }

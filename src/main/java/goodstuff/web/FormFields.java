@@ -11,7 +11,7 @@ import java.util.List;
 public class FormFields {
 
     private String search;
-    private String artist;
+    private String selectedArtist;
     private String likeAboutIt = "Tempo";
     private Track[] tracks;
     private List<String> songs;
@@ -22,7 +22,7 @@ public class FormFields {
     public String toString() {
         return "FormFields{" +
                 "search='" + search + '\'' +
-                ", artist='" + artist + '\'' +
+                ", selectedArtist='" + selectedArtist + '\'' +
                 ", likeAboutIt='" + likeAboutIt + '\'' +
                 ", tracks=" + Arrays.toString(tracks) +
                 ", songs=" + songs +
@@ -51,12 +51,12 @@ public class FormFields {
         this.search = search;
     }
 
-    public String getArtist() {
-        return artist;
+    public String getSelectedArtist() {
+        return selectedArtist;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
+    public void setSelectedArtist(String selectedArtist) {
+        this.selectedArtist = selectedArtist;
     }
 
     public Track[] getTracks() {

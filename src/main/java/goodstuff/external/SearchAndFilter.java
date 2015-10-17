@@ -13,19 +13,45 @@ import java.util.List;
  */
 public class SearchAndFilter {
     public static FilteredSearchResults searchAndFilter(String songSearch, String filterName) {
-        Spotify.Results spotifyResults = new Spotify().searchSpotifyApi(songSearch);
-        Spotify.Result spotifyResult = spotifyResults.get(0);
-        String artist = spotifyResult.getArtistName();
+        final Spotify.Results spotifyResults = new Spotify().searchSpotifyApi(songSearch);
+        if (spotifyResults.isEmpty()) {
+            return null;
+        }
+
+        final Spotify.Result firstSpotifyResult = spotifyResults.get(0);
+
+        final String selectedArtist = firstSpotifyResult.getArtistName();
+        final List<String> otherArtistList = getOtherArtistList(spotifyResults);
+        final List<String> selectedArtistSongs = getSongsFromEchoNest(
+                filterName, firstSpotifyResult.getSongName(), selectedArtist);
+
+        return new FilteredSearchResults(selectedArtist, selectedArtistSongs , otherArtistList);
+    }
+
+    private static List<String> getSongsFromEchoNest(String filterName, String songName, String artist) {
         List<EchoSong> filteredSongList;
         try {
             filteredSongList = new EchoNestPoller()
-                    .getFilteredPopularSongs(spotifyResult.getSongName(), artist, filterName);
+                    .getFilteredPopularSongs(songName, artist, filterName);
         } catch (FailedToRetrieveSongFromEchoNestException e) {
             System.out.println(e.getLocalizedMessage());
             // If the song name couldn't be retrieved from echonest, treat as no results found
-            filteredSongList = new ArrayList<EchoSong>();
+            filteredSongList = new ArrayList<>();
         }
-        return new FilteredSearchResults(artist, getSongNames(filteredSongList));
+        return getSongNames(filteredSongList);
+    }
+
+    private static List<String> getOtherArtistList(Spotify.Results spotifyResults) {
+        List<String> otherArtistList = new ArrayList<>();
+
+        final int size = spotifyResults.size();
+        if (size > 1) {
+            for (int i = 1; i < size; i++) {
+                otherArtistList.add(spotifyResults.get(i).getArtistName());
+            }
+        }
+
+        return otherArtistList;
     }
 
     private static List<String> getSongNames(List<EchoSong> echoSongList) {

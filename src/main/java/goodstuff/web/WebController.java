@@ -26,18 +26,19 @@ public class WebController {
 
     @RequestMapping(value="/justtheirgoodstuff", method=RequestMethod.POST)
     public String goodStuffFormSubmit(@ModelAttribute FormFields formFields, Model model) {
-        System.out.println(formFields);
+        System.out.println("DEBUG - formFields: " + formFields);
 
         String songSearch = formFields.getSearch();
 
         FilteredSearchResults searchResults = SearchAndFilter.searchAndFilter(songSearch, formFields.getLikeAboutIt());
+        System.out.println("DEBUG - searchResults: " + searchResults);
 
-        if (searchResults.isEmpty()) {
+        if (searchResults == null || searchResults.noSongs()) {
             formFields.setSuccess(false);
             formFields.setErrorMessage("No results found");
         } else {
-            formFields.setSongs(searchResults.getSongNames());
-            formFields.setArtist(searchResults.getArtistName().replace('+',' '));
+            formFields.setSongs(searchResults.getSelectedArtistSongs());
+            formFields.setSelectedArtist(searchResults.getSelectedArtist().replace('+', ' '));
             formFields.setSuccess(true);
         }
 
