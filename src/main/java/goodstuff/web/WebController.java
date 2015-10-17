@@ -2,7 +2,6 @@ package goodstuff.web;
 
 import goodstuff.external.FilteredSearchResults;
 import goodstuff.external.SearchAndFilter;
-import goodstuff.external.SearchResultHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,28 +30,18 @@ public class WebController {
 
         String songSearch = formFields.getSearch();
 
-        final SearchResultHolder.Key searchResultKey = SearchResultHolder.makeKey(songSearch, formFields.getArtist(), formFields.getLikeAboutIt());
-        final SearchResultHolder searchResultHolder = formFields.getSearchResultHolder(); // TODO - why isn't this persisting through submits? it's getting re-instantiatied every time
-
-        FilteredSearchResults searchResults = searchResultHolder.get(searchResultKey);
-
-        if (searchResults == null) {
-            searchResults = SearchAndFilter.searchAndFilter(songSearch, formFields.getLikeAboutIt());
-            searchResultHolder.put(searchResultKey, searchResults);
-        }
+        FilteredSearchResults searchResults = SearchAndFilter.searchAndFilter(songSearch, formFields.getLikeAboutIt());
 
         if (searchResults.isEmpty()) {
             formFields.setSuccess(false);
             formFields.setErrorMessage("No results found");
-            model.addAttribute("formFields", formFields);
-            return HTML_PAGE;
+        } else {
+            formFields.setSongs(searchResults.getSongNames());
+            formFields.setArtist(searchResults.getArtistName().replace('+',' '));
+            formFields.setSuccess(true);
         }
 
-        formFields.setSongs(searchResults.getSongNames());
-        formFields.setArtist(searchResults.getArtistName().replace('+',' '));
-        formFields.setSuccess(true);
         model.addAttribute("formFields", formFields);
-
         return HTML_PAGE;
     }
 }
