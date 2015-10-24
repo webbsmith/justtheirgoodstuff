@@ -33,14 +33,7 @@ public class WebController {
         FilteredSearchResults searchResults = SearchAndFilter.searchAndFilter(songSearch, formFields.getLikeAboutIt());
         System.out.println("DEBUG - searchResults: " + searchResults);
 
-        if (searchResults == null || searchResults.noSongs()) {
-            formFields.setSuccess(false);
-            formFields.setErrorMessage("No results found");
-        } else {
-            formFields.setSongs(searchResults.getSelectedArtistSongs());
-            formFields.setSelectedArtist(searchResults.getSelectedArtist().replace('+', ' '));
-            formFields.setSuccess(true);
-        }
+        formFields.updateWithSearchResults(searchResults);
 
         model.addAttribute("formFields", formFields);
         return HTML_PAGE;

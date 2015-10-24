@@ -57,6 +57,10 @@ public class SearchAndFilter {
         return otherArtistList;
     }
 
+    private String decodeUrlSpaces(String s) {
+        return s.replace('+', ' ');
+    }
+
     private static List<String> getSongNames(List<EchoSong> echoSongList) {
         List<String> songNames = new ArrayList<String>();
         for (EchoSong song : echoSongList) {

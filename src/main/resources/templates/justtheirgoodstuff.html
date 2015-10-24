@@ -63,7 +63,7 @@
     <h2 th:if="${!formFields.success}" th:text="${formFields.errorMessage}"></h2>
 
     <div th:if="${formFields.success}" >
-    <h2 th:text="${formFields.selectedArtist}"></h2>
+        <h2 th:text="${formFields.selectedArtist}"></h2>
         <div class="row row-centered">
             <div class="col-md-12 col-centered">
                 <table>
@@ -76,6 +76,9 @@
                     </tr>
                 </table>
             </div>
+        </div>
+        <div id="otherArtists" th:each="artist : ${formFields.otherArtists}">
+            <h4 th:text="${artist}"></h4>
         </div>
     </div>
 
