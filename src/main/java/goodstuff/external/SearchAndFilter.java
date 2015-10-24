@@ -5,8 +5,7 @@ import goodstuff.external.echonest.FailedToRetrieveSongFromEchoNestException;
 import goodstuff.external.echonest.pojo.EchoSong;
 import goodstuff.external.spotify.Spotify;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by webb on 8/15/15.
@@ -21,11 +20,11 @@ public class SearchAndFilter {
         final Spotify.Result firstSpotifyResult = spotifyResults.get(0);
 
         final String selectedArtist = firstSpotifyResult.getArtistName();
-        final List<String> otherArtistList = getOtherArtistList(spotifyResults);
-        final List<String> selectedArtistSongs = getSongsFromEchoNest(
+        final Collection<String> otherArtistList = getOtherArtistList(spotifyResults);
+        final Collection<String> selectedArtistSongs = getSongsFromEchoNest(
                 filterName, firstSpotifyResult.getSongName(), selectedArtist);
 
-        return new FilteredSearchResults(selectedArtist, selectedArtistSongs , otherArtistList);
+        return new FilteredSearchResults(selectedArtist, selectedArtistSongs, otherArtistList);
     }
 
     private static List<String> getSongsFromEchoNest(String filterName, String songName, String artist) {
@@ -41,8 +40,9 @@ public class SearchAndFilter {
         return getSongNames(filteredSongList);
     }
 
-    private static List<String> getOtherArtistList(Spotify.Results spotifyResults) {
-        List<String> otherArtistList = new ArrayList<>();
+    private static Set<String> getOtherArtistList(Spotify.Results spotifyResults) {
+        // There will be duplicate artists; use a HashSet to avoid duplicates in the list
+        Set<String> otherArtistList = new HashSet<>();
 
         final int size = spotifyResults.size();
         if (size > 1) {
@@ -50,6 +50,9 @@ public class SearchAndFilter {
                 otherArtistList.add(spotifyResults.get(i).getArtistName());
             }
         }
+
+        // There may be duplicates of the "selectedArtist". Remove those.
+        otherArtistList.remove(spotifyResults.get(0).getArtistName());
 
         return otherArtistList;
     }

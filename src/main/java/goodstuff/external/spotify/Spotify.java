@@ -16,7 +16,7 @@ public class Spotify {
         // todo - when adding multiple artists, sort by track popularity (new param for Track)
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://api.spotify.com/v1/search?query=" + songSearch +
-                "&offset=0&limit=5&type=track&market=US";
+                "&offset=0&limit=7&type=track&market=US";
         Page page = restTemplate.getForObject(url, Page.class);
         System.out.println("Spotify URL: " + url);
         System.out.println("Track result count: " + page.getTracks().getItems().size());

@@ -3,7 +3,7 @@ package goodstuff.web;
 import goodstuff.external.spotify.pojo.Track;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by webb on 10/18/14.
@@ -14,7 +14,7 @@ public class FormFields {
     private String selectedArtist;
     private String likeAboutIt = "Tempo";
     private Track[] tracks;
-    private List<String> songs;
+    private Collection<String> songs;
     private boolean success;
     private String errorMessage;
 
@@ -67,11 +67,11 @@ public class FormFields {
         this.tracks = tracks;
     }
 
-    public List<String> getSongs() {
+    public Collection<String> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<String> songs) {
+    public void setSongs(Collection<String> songs) {
         this.songs = songs;
     }
 

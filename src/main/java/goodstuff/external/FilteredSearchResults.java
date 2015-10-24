@@ -1,5 +1,6 @@
 package goodstuff.external;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -7,10 +8,10 @@ import java.util.List;
  */
 public class FilteredSearchResults {
     private final String selectedArtist;
-    private final List<String> selectedArtistSongs;
-    private final List<String> otherArtistList;
+    private final Collection<String> selectedArtistSongs;
+    private final Collection<String> otherArtistList;
 
-    FilteredSearchResults(String selectedArtist, List<String> selectedArtistSongs, List<String> otherArtistList) {
+    FilteredSearchResults(String selectedArtist, Collection<String> selectedArtistSongs, Collection<String> otherArtistList) {
         this.selectedArtist = selectedArtist;
         this.selectedArtistSongs = selectedArtistSongs;
         this.otherArtistList = otherArtistList;
@@ -20,7 +21,7 @@ public class FilteredSearchResults {
         return selectedArtistSongs.isEmpty();
     }
 
-    public List<String> getSelectedArtistSongs() {
+    public Collection<String> getSelectedArtistSongs() {
         return selectedArtistSongs;
     }
 
@@ -28,7 +29,7 @@ public class FilteredSearchResults {
         return selectedArtist;
     }
 
-    public List<String> getOtherArtistList() {
+    public Collection<String> getOtherArtistList() {
         return otherArtistList;
     }
 
