@@ -25,7 +25,7 @@ public class SearchAndFilter {
         } else {
             artistToSearchFor = firstSpotifyResult.getArtistName();
         }
-        final Collection<String> otherArtistList = getOtherArtistList(spotifyResults);
+        final Collection<String> otherArtistList = getOtherArtistList(convertSpaces(artistToSearchFor), spotifyResults);
         final Collection<String> selectedArtistSongs = getSongsFromEchoNest(
                 filterName, firstSpotifyResult.getSongName(), artistToSearchFor);
 
@@ -45,19 +45,19 @@ public class SearchAndFilter {
         return getSongNames(filteredSongList);
     }
 
-    private static Set<String> getOtherArtistList(Spotify.Results spotifyResults) {
+    private static Set<String> getOtherArtistList(String artistToDisplay, Spotify.Results spotifyResults) {
         // There will be duplicate artists; use a HashSet to avoid duplicates in the list
         Set<String> otherArtistList = new HashSet<>();
 
         final int size = spotifyResults.size();
-        if (size > 1) {
-            for (int i = 1; i < size; i++) {
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
                 otherArtistList.add(spotifyResults.get(i).getArtistName());
             }
         }
 
-        // There may be duplicates of the "selectedArtist". Remove those.
-        otherArtistList.remove(spotifyResults.get(0).getArtistName());
+        // Remove the artist to display from the other artists list
+        otherArtistList.remove(artistToDisplay);
 
         return otherArtistList;
     }
@@ -72,5 +72,9 @@ public class SearchAndFilter {
             songNames.add(song.getTitle());
         }
         return songNames;
+    }
+
+    private static String convertSpaces(String s) {
+        return s.replace(' ', '+');
     }
 }
