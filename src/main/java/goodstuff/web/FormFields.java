@@ -15,6 +15,7 @@ public class FormFields {
 
     private String search;
     private String selectedArtist;
+    private String artistToDisplay;
     private String likeAboutIt = "Tempo";
     private Track[] tracks;
     private Collection<String> songs;
@@ -23,12 +24,13 @@ public class FormFields {
     private String errorMessage;
 
     public void updateWithSearchResults(FilteredSearchResults searchResults) {
+        this.setSelectedArtist(null); // Reset selected artist
         if (searchResults == null || searchResults.noSongs()) {
             this.setSuccess(false);
             this.setErrorMessage("No results found");
         } else {
             this.setSongs(convertSpaces(searchResults.getSelectedArtistSongs()));
-            this.setSelectedArtist(convertSpaces(searchResults.getSelectedArtist()));
+            this.setArtistToDisplay(convertSpaces(searchResults.getSelectedArtist()));
             this.setOtherArtists(convertSpaces(searchResults.getOtherArtistList()));
             this.setSuccess(true);
         }
@@ -120,4 +122,13 @@ public class FormFields {
     public void setOtherArtists(Collection<String> otherArtists) {
         this.otherArtists = otherArtists;
     }
+
+    public String getArtistToDisplay() {
+        return artistToDisplay;
+    }
+
+    public void setArtistToDisplay(String artistToDisplay) {
+        this.artistToDisplay = artistToDisplay;
+    }
+
 }

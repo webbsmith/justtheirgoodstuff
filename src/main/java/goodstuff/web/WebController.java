@@ -30,7 +30,8 @@ public class WebController {
 
         String songSearch = formFields.getSearch();
 
-        FilteredSearchResults searchResults = SearchAndFilter.searchAndFilter(songSearch, formFields.getLikeAboutIt());
+        FilteredSearchResults searchResults = SearchAndFilter.searchAndFilter(
+                songSearch, formFields.getLikeAboutIt(), formFields.getSelectedArtist());
         System.out.println("DEBUG - searchResults: " + searchResults);
 
         formFields.updateWithSearchResults(searchResults);

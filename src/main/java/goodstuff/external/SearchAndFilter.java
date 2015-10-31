@@ -11,7 +11,7 @@ import java.util.*;
  * Created by webb on 8/15/15.
  */
 public class SearchAndFilter {
-    public static FilteredSearchResults searchAndFilter(String songSearch, String filterName) {
+    public static FilteredSearchResults searchAndFilter(String songSearch, String filterName, String selectedArtist) {
         final Spotify.Results spotifyResults = new Spotify().searchSpotifyApi(songSearch);
         if (spotifyResults.isEmpty()) {
             return null;
@@ -19,12 +19,17 @@ public class SearchAndFilter {
 
         final Spotify.Result firstSpotifyResult = spotifyResults.get(0);
 
-        final String selectedArtist = firstSpotifyResult.getArtistName();
+        final String artistToSearchFor;
+        if (selectedArtist != null) {
+            artistToSearchFor = selectedArtist;
+        } else {
+            artistToSearchFor = firstSpotifyResult.getArtistName();
+        }
         final Collection<String> otherArtistList = getOtherArtistList(spotifyResults);
         final Collection<String> selectedArtistSongs = getSongsFromEchoNest(
-                filterName, firstSpotifyResult.getSongName(), selectedArtist);
+                filterName, firstSpotifyResult.getSongName(), artistToSearchFor);
 
-        return new FilteredSearchResults(selectedArtist, selectedArtistSongs, otherArtistList);
+        return new FilteredSearchResults(artistToSearchFor, selectedArtistSongs, otherArtistList);
     }
 
     private static List<String> getSongsFromEchoNest(String filterName, String songName, String artist) {

@@ -12,6 +12,7 @@
 
     <title>Just their good stuff</title>
 
+    <link href="css/goodstuff.css" rel="stylesheet"/>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -40,8 +41,8 @@
         <h1 class="text-muted">Just their good stuff</h1>
     </div>
 
+    <form action="#" th:action="@{/justtheirgoodstuff}" th:object="${formFields}" method="post">
     <div class="jumbotron">
-        <form action="#" th:action="@{/justtheirgoodstuff}" th:object="${formFields}" method="post">
 
             <label for="search">Enter a song you like: </label>
             <input th:field="*{search}" type="text" id="search" placeholder="I and Love and You"/>
@@ -57,13 +58,15 @@
             </div>
 
             <input type="submit" value="Search" class="btn btn-lg btn-primary"/>
-        </form>
     </div>
 
     <h2 th:if="${!formFields.success}" th:text="${formFields.errorMessage}"></h2>
 
     <div th:if="${formFields.success}" >
-        <h2 th:text="${formFields.selectedArtist}"></h2>
+        <h2 class="artists" th:text="${formFields.artistToDisplay}"></h2>
+        <div class="artists" id="otherArtists" th:each="artist : ${formFields.otherArtists}">
+            | <input type="radio" class="artists" th:field="*{selectedArtist}" th:text="${artist}" th:value="${artist}" />
+        </div>
         <div class="row row-centered">
             <div class="col-md-12 col-centered">
                 <table>
@@ -77,10 +80,9 @@
                 </table>
             </div>
         </div>
-        <div id="otherArtists" th:each="artist : ${formFields.otherArtists}">
-            <h4 th:text="${artist}"></h4>
-        </div>
     </div>
+
+    </form>
 
     <hr/>
 
