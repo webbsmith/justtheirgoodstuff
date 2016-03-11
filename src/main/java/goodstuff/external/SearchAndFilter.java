@@ -33,6 +33,7 @@ public class SearchAndFilter {
     }
 
     private static List<String> getSongsFromEchoNest(String filterName, String songName, String artist) {
+        artist = cleanUpArtist(artist);
         List<EchoSong> filteredSongList;
         try {
             filteredSongList = new EchoNestPoller()
@@ -43,6 +44,11 @@ public class SearchAndFilter {
             filteredSongList = new ArrayList<>();
         }
         return getSongNames(filteredSongList);
+    }
+
+    /** Get rid of &s, may need to add others... */
+    private static String cleanUpArtist(String artist) {
+        return artist.replaceAll("&", "");
     }
 
     private static Set<String> getOtherArtistList(String artistToDisplay, Spotify.Results spotifyResults) {

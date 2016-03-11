@@ -1,5 +1,6 @@
 DONE - move external api interaction out of web controller
 DONE - don't blow up when there are no results
-selectedArtist selector
+DONE - selectedArtist selector
+DONE - don't blow up on ampersands
 create playlist functionality
 pretty up UI
